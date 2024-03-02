@@ -1,14 +1,16 @@
 import React from "react";
-// import SelectBox from "./SelectBox";
-function AddComment() {
+import SelectBox from "./SelectBox";
+function AddComment({addCommentTitle,handleToggle,isReply}) {
   return (
     <div className="ac-wrapper">
-      <h2 className="addCommentTitle">Write your comment:</h2>
+      <h2 className="addCommentTitle">{`Write your comment in response to ${addCommentTitle}:
+`}</h2>
       <form action="" className="form">
         <input placeholder="name" type="text" />
         <input placeholder="email" type="text" />
-        {/* SelectBox */}
-        <textarea
+      {!isReply&&  <SelectBox isReply={isReply}/>}
+
+<textarea
           placeholder="message..."
           name=""
           id=""
@@ -16,6 +18,7 @@ function AddComment() {
           rows="10"
         ></textarea>
         <button>Send</button>
+       {isReply && <button  onClick={handleToggle}>Cancell</button>}
         {/* Cancell Button */}
       </form>
     </div>

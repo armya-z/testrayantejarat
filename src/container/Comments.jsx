@@ -1,8 +1,15 @@
 import Comment from "../components/Comment";
 import { dataComments } from "../data/data";
-function Comments({ setName, refElement }) {
+function Comments({ setName, refElement ,setIsReply}) {
+
+
+  function scrollToTop(){
+    document.getElementsByClassName("ac-wrapper")[0].scrollIntoView()
+  }
+  
+  
   return (
-    <div className="wrapper">
+    <div className="wrapper" >
       {dataComments.map(({ id, name, message, children }) => (
         <Comment
           key={id}
@@ -11,8 +18,11 @@ function Comments({ setName, refElement }) {
           message={message}
           children={children}
           setName={setName}
-          refElement={refElement}
-        />
+          handleClick={(ev)=>{ setName(ev.target.name) 
+            setIsReply(true)
+            scrollToTop({ behavior: 'smooth',})
+                    }}
+          />
       ))}
     </div>
   );

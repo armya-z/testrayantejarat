@@ -12,8 +12,12 @@ function Rate() {
     { id: 4, hover: false, clicked: false },
     { id: 5, hover: false, clicked: false },
   ]);
+const [starPrev, setStarPrev] = useState(star)
 
-  const hoverHandler = (id) => {
+
+
+
+const hoverHandler = (id) => {
     let hoverData = star.map((item) => {
       return item.id <= id
         ? { ...item, hover: true }
@@ -30,18 +34,30 @@ function Rate() {
   };
 
   const submitRateHandler = (id) => {
-    // IF Request Error
-    // toast.error(message, {
-    //     position: "top-left",
-    //   });
-    // ===============================
-    // IF Request Success
-    // toast.success(message, {
-    //     position: "top-left",
-    //   });
+let submitData=star.map((item) => {
+  return item.id <= id
+    ? { ...item, clicked: true }
+    : { ...item, clicked: false };
+});
+setStar(submitData)
+let payload= star?.find((item)=>  item?.id===id)
+    fetch(`http://127.0.0.1:8000/posts/`,{method:"PATCH",body:payload}).then((response)=>response.json()).then((data)=>{
+       if (data.status==="success") {
+        setStarPrev(submitData)
+        return toast.success(data.message,{position:"top-left"})
+      }else if(data.status==="error"){
+
+  stepBackward(starPrev)
+return toast.error(data.message,{position:"top-left"})
+
+      }
+    })  
+   
   };
 
   const stepBackward = (rate) => {
+    setStar(rate)
+
     // Your code ...
   };
 
